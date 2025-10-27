@@ -1,5 +1,3 @@
-<!-- resources/views/equipments/create.blade.php -->
-{{-- <form method="POST" action="{{ route('equipments.store') }}"> --}}
 <form id="equipmentForm" x-data @submit.prevent="submitEquipmentForm">
     @csrf
     <div class="space-y-4">

@@ -118,6 +118,18 @@
                     <button @click="open = false"
                         class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
                 </div>
+
+                <div class="p-6 min-h-[300px]" x-show="!content">
+                    <div class="flex justify-center items-center h-full">
+                        <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                    </div>
+                </div>
+
                 <div class="p-6" x-html="content"></div>
             </div>
 
@@ -127,7 +139,7 @@
             </div>
         </div>
 
-        
+
 
         <!-- Scripts DataTables -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -154,7 +166,6 @@
                 });
             });
 
-            // Toast reutilizável (posicionado no canto superior direito)
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
