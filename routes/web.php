@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceOrderController;
 use App\Http\Controllers\TechnicalController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Equipments
     Route::resource('equipments', EquipmentController::class);
+
+    // Service Orders
+    Route::resource('service_orders', ServiceOrderController::class);
 
     // Technical
     Route::resource('technicals', TechnicalController::class);

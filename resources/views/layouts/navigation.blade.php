@@ -18,6 +18,12 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('service_orders.index')" :active="request()->routeIs('service_orders.*')">
+                        {{ __('Service_Orders') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('equipments.index')" :active="request()->routeIs('equipments.*')">
                         {{ __('Equipments') }}
                     </x-nav-link>

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ServiceOrder extends Model
 {
+    protected $table = 'service_order';
+
     protected $fillable = [
         'technicial_id',
         'client_name',
@@ -20,7 +22,7 @@ class ServiceOrder extends Model
 
     public function technician(): BelongsTo
     {
-        return $this->belongsTo(Technicial::class);
+        return $this->belongsTo(Technical::class);
     }
 
     public function equipment(): BelongsToMany

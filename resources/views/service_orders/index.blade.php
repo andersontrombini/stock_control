@@ -10,7 +10,7 @@
                 <button
                     @click="
                         open = true;
-                        fetch('{{ route('equipments.create') }}')
+                        fetch('{{ route('service_orders.create') }}')
                             .then(res => res.text())
                             .then(html => content = html)
                     "
@@ -19,32 +19,44 @@
                         xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                     </svg>
-                    {{ __('Novo Equipamento') }}
+                    {{ __('Nova Ordem de Serviço') }}
                 </button>
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-medium mb-4">{{ __('Lista de Equipamentos') }}</h3>
+                    <h3 class="text-lg font-medium mb-4">{{ __('Lista de Serviços') }}</h3>
 
                     <!-- Tabela Responsiva -->
                     <div class="overflow-x-auto">
-                        @if ($equipments->isEmpty())
+                        @if ($serviceOrders->isEmpty())
                             <div class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
                                 {{ __('Nenhum serviço registrado.') }}
                             </div>
                         @else
-                            <table id="equipmentTable"
+                            <table id="serviceOrderTable"
                                 class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 table-auto">
                                 <thead class="bg-gray-50 dark:bg-gray-700">
                                     <tr>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            {{ __('Nome') }}
+                                            {{ __('Nome Cliente') }}
                                         </th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                            {{ __('Quantidade') }}
+                                            {{ __('Endereço') }}
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            {{ __('Plano') }}
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            {{ __('Tipo') }}
+                                        </th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            {{ __('Descrição') }}
                                         </th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -57,38 +69,52 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    @foreach ($equipments as $equipment)
-                                        <tr
-                                            @if ($equipment->quantity <= 10) class="bg-red-50 dark:bg-red-900/20" @endif>
+                                    @foreach ($serviceOrders as $serviceOrder)
+                                        <tr>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                {{ $equipment->name }}
+                                                {{ $serviceOrder->client_name }}
                                             </td>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                                <span
-                                                    class="font-bold @if ($equipment->quantity <= 10) text-red-600 dark:text-red-400 @endif">
-                                                    {{ $equipment->quantity }}
-                                                </span>
+                                                {{ $serviceOrder->client_address }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                                {{ $serviceOrder->client_plan }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                                {{ $serviceOrder->type }}
+                                            </td>
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                                {{ $serviceOrder->description }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                @if ($equipment->status === 'active')
+                                                @if ($serviceOrder->status === 'open')
                                                     <span
                                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
                                                         Ativo
                                                     </span>
+                                                @elseif ($serviceOrder->status === 'in_progress')
+                                                    <span
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
+                                                        Em Progresso
+                                                    </span>
                                                 @else
                                                     <span
                                                         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                        {{ ucfirst($equipment->status) }}
+                                                        Concluído
                                                     </span>
                                                 @endif
+
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                 <button
                                                     @click="
                                                         open = true;
-                                                        fetch('{{ route('equipments.edit', $equipment->id) }}')
+                                                        fetch('{{ route('service_orders.edit', $serviceOrder->id) }}')
                                                             .then(res => res.text())
                                                             .then(html => content = html)
                                                     "
@@ -96,7 +122,7 @@
                                                     {{ __('Editar') }}
                                                 </button>
                                                 <button
-                                                    onclick="confirmDelete('{{ route('equipments.destroy', $equipment->id) }}')"
+                                                    onclick="confirmDelete('{{ route('service_orders.destroy', $serviceOrder->id) }}')"
                                                     class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600 transition duration-150">
                                                     {{ __('Excluir') }}
                                                 </button>
@@ -114,7 +140,7 @@
             <div x-show="open" x-transition
                 class="fixed inset-y-0 right-0 w-full sm:w-2/3 lg:w-1/3 bg-white dark:bg-gray-800 shadow-2xl border-l border-gray-200 dark:border-gray-700 z-50 overflow-y-auto">
                 <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Novo Equipamento</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Novo Serviço</h2>
                     <button @click="open = false"
                         class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
                 </div>
@@ -149,7 +175,7 @@
 
         <script>
             $(document).ready(function() {
-                $('#equipmentTable').DataTable({
+                $('#serviceOrderTable').DataTable({
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/pt-BR.json'
                     },
@@ -160,7 +186,7 @@
                         "<'flex justify-end mt-4'p>",
                     initComplete: function() {
                         // adiciona classes Tailwind ao select do length menu
-                        $('select[name="equipmentTable_length"]').addClass(
+                        $('select[name="serviceOrderTable_length"]').addClass(
                             'form-select w-24 px-2 py-1 border rounded');
                     }
                 });
@@ -182,11 +208,11 @@
                 }
             });
 
-            async function submitEquipmentForm(e) {
+            async function submitServiceOrderForm(e) {
                 e.preventDefault();
                 const form = e.target;
                 const formData = new FormData(form);
-                const action = form.getAttribute('action') || "{{ route('equipments.store') }}";
+                const action = form.getAttribute('action') || "{{ route('service_orders.store') }}";
 
                 const button = form.querySelector('button[type="submit"]');
                 if (button) {
@@ -207,7 +233,7 @@
                     if (response.ok) {
                         Toast.fire({
                             icon: 'success',
-                            title: 'Equipamento salvo com sucesso!'
+                            title: 'Ordem de serviço salva com sucesso!'
                         });
                         setTimeout(() => window.location.reload(), 1500);
                     } else if (response.status === 422) {
@@ -221,7 +247,7 @@
                     } else {
                         Toast.fire({
                             icon: 'error',
-                            title: 'Erro ao salvar o equipamento.'
+                            title: 'Erro ao salvar a ordem de serviço.'
                         });
                     }
                 } catch (error) {
@@ -283,13 +309,13 @@
                     if (response.ok) {
                         Toast.fire({
                             icon: 'success',
-                            title: 'Equipamento excluído com sucesso!'
+                            title: 'Ordem de serviço excluída com sucesso!'
                         });
                         setTimeout(() => window.location.reload(), 1500);
                     } else {
                         Toast.fire({
                             icon: 'error',
-                            title: 'Erro ao excluir o equipamento.'
+                            title: 'Erro ao excluir a ordem de serviço.'
                         });
                     }
                 } catch (error) {
