@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class LowStockAlertMail extends Mailable implements ShouldQueue
 {
@@ -19,14 +20,14 @@ class LowStockAlertMail extends Mailable implements ShouldQueue
      *
      * @var \App\Models\Equipment
      */
-    public $equipment;
+    public $equipments;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Equipment $equipment)
+    public function __construct(Collection $equipments)
     {
-        $this->equipment = $equipment;
+        $this->equipments = $equipments;
     }
 
     /**
@@ -35,7 +36,7 @@ class LowStockAlertMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'ALERTA DE ESTOQUE BAIXO: ' . $this->equipment->name,
+            subject: '📦 Alerta de Estoque Baixo - ' . now()->format('d/m/Y H:i')
         );
     }
 
@@ -46,7 +47,7 @@ class LowStockAlertMail extends Mailable implements ShouldQueue
     {
         return new Content(
             view: 'mail.low-stock-alert',
-            with: ['equipment' => $this->equipment],
+            with: ['equipments' => $this->equipments],
         );
     }
 

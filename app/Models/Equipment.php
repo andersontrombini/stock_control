@@ -23,10 +23,29 @@ class Equipment extends Model
         'low_stock_threshold',
     ];
 
-     public function serviceOrders(): BelongsToMany
+    public function serviceOrders(): BelongsToMany
     {
         return $this->belongsToMany(ServiceOrder::class, 'equipment_service_order')
-                    ->withPivot('quantity_used')
-                    ->withTimestamps();
+            ->withPivot('quantity_used')
+            ->withTimestamps();
+    }
+
+    public function getIsMeasuredInMetersAttribute(): bool
+    {
+        return in_array(strtolower($this->name), ['cabo de rede', 'bobina']);
+    }
+
+    public function getFormattedQuantityAttribute(): string
+    {
+        return $this->is_measured_in_meters
+            ? $this->quantity . ' M'
+            : (string) $this->quantity;
+    }
+
+    public function getFormattedLowStockThresholdAttribute(): string
+    {
+        return $this->is_measured_in_meters
+            ? $this->low_stock_threshold . ' M'
+            : (string) $this->low_stock_threshold;
     }
 }

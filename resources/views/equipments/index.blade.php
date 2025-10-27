@@ -59,7 +59,7 @@
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     @foreach ($equipments as $equipment)
                                         <tr
-                                            @if ($equipment->quantity <= 10) class="bg-red-50 dark:bg-red-900/20" @endif>
+                                            @if ($equipment->quantity <= $equipment->low_stock_threshold) class="bg-red-50 dark:bg-red-900/20" @endif>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $equipment->name }}
@@ -67,7 +67,7 @@
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                                 <span
-                                                    class="font-bold @if ($equipment->quantity <= 10) text-red-600 dark:text-red-400 @endif">
+                                                    class="font-bold @if ($equipment->quantity <= $equipment->low_stock_threshold) text-red-600 dark:text-red-400 @endif">
                                                     {{ $equipment->quantity }}
                                                 </span>
                                             </td>

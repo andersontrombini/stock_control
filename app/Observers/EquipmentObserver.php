@@ -22,20 +22,25 @@ class EquipmentObserver
      */
     public function updated(Equipment $equipment): void
     {
-        
-         // Verifique se a quantidade foi alterada e se está abaixo do limite de estoque baixo
-        if ($equipment->wasChanged('quantity') && $equipment->quantity < $equipment->low_stock_threshold) {
-            
-            Log::info('ALERTA DE ESTOQUE BAIXO ACIONADO', [
-            'equipment_id' => $equipment->id,
-            'quantity' => $equipment->quantity,
-            'threshold' => $equipment->low_stock_threshold,
-        ]);
-            // Lógica para determinar para quem enviar o e-mail (ex: um administrador)
-            $recipientEmail = 'ander23br03@gmail.com'; 
-            
-            // Envie o e-mail com o Mailable
-            Mail::to($recipientEmail)->send(new LowStockAlertMail($equipment));
+
+        if ($equipment->wasChanged('quantity')) {
+
+            // Busca todos os equipamentos com estoque baixo
+            $lowStockEquipments = Equipment::whereColumn('quantity', '<', 'low_stock_threshold')->get();
+
+            if ($lowStockEquipments->isNotEmpty()) {
+                Log::info('Equipamentos com estoque baixo encontrados.', [
+                    'count' => $lowStockEquipments->count(),
+                ]);
+
+                //  $recipientEmail = ['ander23br03@gmail.com', 'daniel@aip.com.br', 'tania@aip.com.br'];
+                $recipientEmail = 'ander23br03@gmail.com';
+
+                // Envia um e-mail único com todos os equipamentos
+                Mail::to($recipientEmail)->send(new LowStockAlertMail($lowStockEquipments));
+            } else {
+                Log::info('Nenhum equipamento com estoque baixo encontrado.');
+            }
         }
     }
 
