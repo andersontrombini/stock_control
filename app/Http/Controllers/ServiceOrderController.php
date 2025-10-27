@@ -43,9 +43,10 @@ class ServiceOrderController extends Controller
 
     public function edit($id)
     {
+        $technicials = Technical::all();
         $serviceOrder = ServiceOrder::findOrFail($id);
 
-        return view('service_orders.edit', compact('serviceOrder'));
+        return view('service_orders.edit', compact('serviceOrder', 'technicials'));
     }
 
     public function update(Request $request, $id)
@@ -59,7 +60,7 @@ class ServiceOrderController extends Controller
             'type' => 'required|string|max:100',
             'description' => 'nullable|string',
             'status' => 'required|string|in:open,in_progress,closed',
-            'technicial_id' => 'required|exists:technicial,id',
+            'technicial_id' => 'required|exists:technical,id',
         ]);
 
         $serviceOrder->update($validated);
