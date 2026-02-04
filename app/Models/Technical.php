@@ -23,6 +23,6 @@ class Technical extends Model
 
     public function serviceOrders(): HasMany
     {
-        return $this->hasMany(ServiceOrder::class);
+        return $this->hasMany(ServiceOrder::class, 'technicial_id');
     }
 }

@@ -22,6 +22,7 @@ class EquipmentObserver
      */
     public function updated(Equipment $equipment): void
     {
+       Log::info('Observer de Equipamento chamado para: ' . $equipment->name);
 
         if ($equipment->wasChanged('quantity')) {
 

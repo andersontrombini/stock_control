@@ -22,7 +22,7 @@ class ServiceOrder extends Model
 
     public function technician(): BelongsTo
     {
-        return $this->belongsTo(Technical::class);
+        return $this->belongsTo(Technical::class, 'technicial_id');
     }
 
     public function equipment(): BelongsToMany
