@@ -10,7 +10,7 @@ class ServiceOrderController extends Controller
 {
     public function index()
     {
-        $serviceOrders = ServiceOrder::all();
+        $serviceOrders = ServiceOrder::orderBy('created_at', 'desc')->get();
 
         return view('service_orders.index', [
             'serviceOrders' => $serviceOrders,

@@ -25,7 +25,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const serviceData = @json(array_values($servicesByType));
-        const serviceLabels = @json(array_map('ucfirst', array_keys($servicesByType)));
+        const serviceLabels = @json(array_map('service_type_label', array_keys($servicesByType)));
 
         new Chart(document.getElementById('serviceChart'), {
             type: 'doughnut',

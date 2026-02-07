@@ -7,20 +7,19 @@
 
             <!-- Botão de Inserir Registro -->
             <div class="flex justify-end mb-6">
-                <button
+                <x-primary-button type="button"
                     @click="
-                        open = true;
-                        fetch('{{ route('equipments.create') }}')
-                            .then(res => res.text())
-                            .then(html => content = html)
-                    "
-                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 shadow-md">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        open = true;
+        fetch('{{ route('equipments.create') }}')
+            .then(res => res.text())
+            .then(html => content = html)
+    "
+                    class="rounded-lg shadow-md">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                     {{ __('Novo Equipamento') }}
-                </button>
+                </x-primary-button>
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">
@@ -51,7 +50,7 @@
                                             {{ __('Status') }}
                                         </th>
                                         <th
-                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                            class="col-2 px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                             {{ __('Ações') }}
                                         </th>
                                     </tr>
@@ -64,6 +63,7 @@
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $equipment->name }}
                                             </td>
+
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                                 <span
@@ -71,39 +71,66 @@
                                                     {{ $equipment->quantity }}
                                                 </span>
                                             </td>
+
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                                 @if ($equipment->status === 'active')
                                                     <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                               bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
                                                         Ativo
                                                     </span>
                                                 @else
                                                     <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
+                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                               bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
                                                         {{ ucfirst($equipment->status) }}
                                                     </span>
                                                 @endif
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-3">
+
+                                                <!-- Editar -->
                                                 <button
                                                     @click="
-                                                        open = true;
-                                                        fetch('{{ route('equipments.edit', $equipment->id) }}')
-                                                            .then(res => res.text())
-                                                            .then(html => content = html)
-                                                    "
-                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 transition duration-150 mr-3">
-                                                    {{ __('Editar') }}
+            open = true;
+            fetch('{{ route('equipments.edit', $equipment->id) }}')
+                .then(res => res.text())
+                .then(html => content = html)
+        "
+                                                    title="Editar"
+                                                    class="text-orange-500 hover:text-orange-700 
+               dark:text-orange-400 dark:hover:text-orange-300 
+               transition duration-150">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.125 20.588
+                   3 21l.412-4.125L16.862 4.487z" />
+                                                    </svg>
                                                 </button>
+
+                                                <!-- Excluir -->
                                                 <button
                                                     onclick="confirmDelete('{{ route('equipments.destroy', $equipment->id) }}')"
-                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600 transition duration-150">
-                                                    {{ __('Excluir') }}
+                                                    title="Excluir"
+                                                    class="text-red-500 hover:text-red-700 
+               dark:text-red-400 dark:hover:text-red-300 
+               transition duration-150">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862
+                   a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-1-3
+                   h-4a1 1 0 00-1 1v1h6V5a1 1 0 00-1-1z" />
+                                                    </svg>
                                                 </button>
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
+
                             </table>
                         @endif
                     </div>
@@ -112,16 +139,31 @@
             </div>
 
             <div x-show="open" x-transition
-                class="fixed inset-y-0 right-0 w-full sm:w-2/3 lg:w-1/3 bg-white dark:bg-gray-800 shadow-2xl border-l border-gray-200 dark:border-gray-700 z-50 overflow-y-auto">
-                <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Novo Equipamento</h2>
+                class="fixed inset-y-0 right-0 w-full sm:w-2/3 lg:w-1/3
+           bg-white dark:bg-gray-800 shadow-2xl
+           border-l border-orange-200 dark:border-orange-700
+           z-50 overflow-y-auto">
+
+                <!-- Header -->
+                <div
+                    class="flex justify-between items-center p-4
+               border-b border-orange-200 dark:border-orange-700">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                        Novo Equipamento
+                    </h2>
+
                     <button @click="open = false"
-                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
+                        class="text-orange-400 hover:text-orange-600
+                   dark:text-orange-400 dark:hover:text-orange-300
+                   text-2xl leading-none transition">
+                        &times;
+                    </button>
                 </div>
 
+                <!-- Loading -->
                 <div class="p-6 min-h-[300px]" x-show="!content">
                     <div class="flex justify-center items-center h-full">
-                        <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>
@@ -130,6 +172,7 @@
                     </div>
                 </div>
 
+                <!-- Conteúdo carregado via fetch -->
                 <div class="p-6" x-html="content"></div>
             </div>
 

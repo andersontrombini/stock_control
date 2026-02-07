@@ -86,46 +86,55 @@
                                             </td>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                                {{ $serviceOrder->type }}
+                                                {{ service_type_label($serviceOrder->type) }}
                                             </td>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                                 {{ $serviceOrder->description }}
                                             </td>
+                                            @php($status = service_status_badge($serviceOrder->status))
                                             <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                                @if ($serviceOrder->status === 'open')
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100">
-                                                        Ativo
-                                                    </span>
-                                                @elseif ($serviceOrder->status === 'in_progress')
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-700 dark:text-yellow-100">
-                                                        Em Progresso
-                                                    </span>
-                                                @else
-                                                    <span
-                                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-100">
-                                                        Concluído
-                                                    </span>
-                                                @endif
-
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $status['class'] }}">
+                                                    {{ $status['label'] }}
+                                                </span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <td
+                                                class="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-3">
+                                                <!-- Editar -->
                                                 <button
                                                     @click="
-                                                        open = true;
-                                                        fetch('{{ route('service_orders.edit', $serviceOrder->id) }}')
-                                                            .then(res => res.text())
-                                                            .then(html => content = html)
-                                                    "
-                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600 transition duration-150 mr-3">
-                                                    {{ __('Editar') }}
+            open = true;
+            fetch('{{ route('service_orders.edit', $serviceOrder->id) }}')
+                .then(res => res.text())
+                .then(html => content = html)
+        "
+                                                    title="Editar"
+                                                    class="text-orange-500 hover:text-orange-700 
+               dark:text-orange-400 dark:hover:text-orange-300 
+               transition duration-150">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487a2.25 2.25 0 113.182 3.182L7.125 20.588
+                   3 21l.412-4.125L16.862 4.487z" />
+                                                    </svg>
                                                 </button>
+
+                                                <!-- Excluir -->
                                                 <button
                                                     onclick="confirmDelete('{{ route('service_orders.destroy', $serviceOrder->id) }}')"
-                                                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600 transition duration-150">
-                                                    {{ __('Excluir') }}
+                                                    title="Excluir"
+                                                    class="text-red-500 hover:text-red-700 
+               dark:text-red-400 dark:hover:text-red-300 
+               transition duration-150">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862
+                   a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-1-3
+                   h-4a1 1 0 00-1 1v1h6V5a1 1 0 00-1-1z" />
+                                                    </svg>
                                                 </button>
                                             </td>
                                         </tr>
@@ -139,16 +148,30 @@
             </div>
 
             <div x-show="open" x-transition
-                class="fixed inset-y-0 right-0 w-full sm:w-2/3 lg:w-1/3 bg-white dark:bg-gray-800 shadow-2xl border-l border-gray-200 dark:border-gray-700 z-50 overflow-y-auto">
-                <div class="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Novo Serviço</h2>
+                class="fixed inset-y-0 right-0 w-full sm:w-2/3 lg:w-1/3 
+           bg-white dark:bg-gray-800 shadow-2xl 
+           border-l border-orange-200 dark:border-orange-700 
+           z-50 overflow-y-auto">
+
+                <div
+                    class="flex justify-between items-center p-4 
+                border-b border-orange-200 dark:border-orange-700">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                        Novo Serviço
+                    </h2>
+
                     <button @click="open = false"
-                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
+                        class="text-orange-400 hover:text-orange-600 
+                   dark:text-orange-400 dark:hover:text-orange-300 
+                   text-2xl leading-none">
+                        &times;
+                    </button>
                 </div>
 
+                <!-- Loading -->
                 <div class="p-6 min-h-[300px]" x-show="!content">
                     <div class="flex justify-center items-center h-full">
-                        <svg class="animate-spin h-8 w-8 text-indigo-600" xmlns="http://www.w3.org/2000/svg"
+                        <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg"
                             fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                                 stroke-width="4"></circle>
@@ -159,6 +182,7 @@
 
                 <div class="p-6" x-html="content"></div>
             </div>
+
 
             <!-- Overlay escurecido -->
             <div x-show="open" x-transition.opacity @click="open = false"
@@ -177,6 +201,7 @@
         <script>
             $(document).ready(function() {
                 $('#serviceOrderTable').DataTable({
+                    order: [],
                     language: {
                         url: 'https://cdn.datatables.net/plug-ins/2.0.8/i18n/pt-BR.json'
                     },

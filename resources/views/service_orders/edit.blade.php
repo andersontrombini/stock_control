@@ -98,7 +98,7 @@
         </div>
 
         <!-- Botões -->
-        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">
+        <x-primary-button>
             Salvar Alterações
-        </button>
+        </x-primary-button>
 </form>

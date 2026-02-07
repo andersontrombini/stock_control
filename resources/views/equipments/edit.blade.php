@@ -4,12 +4,14 @@
 
     <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-        <input type="text" name="name" id="name" value="{{ $equipment->name }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+        <input type="text" name="name" id="name" value="{{ $equipment->name }}"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
     </div>
 
     <div class="mb-4">
         <label for="quantity" class="block text-sm font-medium text-gray-700">Quantidade</label>
-        <input type="number" name="quantity" id="quantity" value="{{ $equipment->quantity }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+        <input type="number" name="quantity" id="quantity" value="{{ $equipment->quantity }}"
+            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
     </div>
 
     <div class="mb-4">
@@ -20,8 +22,7 @@
         </select>
     </div>
 
-    <button type="submit"
-        class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700">
+    <x-primary-button>
         Salvar Alterações
-    </button>
+    </x-primary-button>
 </form>
