@@ -7,20 +7,21 @@
 
             <!-- Botão de Inserir Registro -->
             <div class="flex justify-end mb-6">
-                <button
+                <x-primary-button type="button"
                     @click="
-                        open = true;
-                        fetch('{{ route('service_orders.create') }}')
-                            .then(res => res.text())
-                            .then(html => content = html)
-                    "
-                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-150 shadow-md">
+            open = true;
+            fetch('{{ route('service_orders.create') }}')
+                .then(res => res.text())
+                .then(html => content = html)
+        "
+                    class="rounded-lg shadow-md">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
+
                     {{ __('Nova Ordem de Serviço') }}
-                </button>
+                </x-primary-button>
             </div>
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">

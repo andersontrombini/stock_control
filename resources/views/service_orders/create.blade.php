@@ -62,7 +62,10 @@
         <div>
             <x-input-label for="description" :value="__('Descrição')" />
             <textarea id="description" name="description" rows="3"
-                class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+                class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 
+               dark:bg-gray-900 dark:text-gray-300 
+               focus:border-orange-500 dark:focus:border-orange-400 
+               focus:ring-orange-500 dark:focus:ring-orange-400"
                 placeholder="Descreva o serviço...">{{ old('description') }}</textarea>
             <x-input-error :messages="$errors->get('description')" class="mt-2" />
         </div>
