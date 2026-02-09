@@ -5,14 +5,14 @@
             <!-- Ações do topo -->
             <div class="flex justify-end mb-4">
                 <a href="{{ route('service_orders.export') }}"
-                   class="inline-flex items-center px-4 py-2 
+                    class="inline-flex items-center px-4 py-2 
                           bg-green-600 hover:bg-green-700 
                           text-white font-semibold rounded-lg 
                           shadow-md transition">
 
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M12 16v-8m0 8l-3-3m3 3l3-3M4 20h16" />
+                            d="M12 16v-8m0 8l-3-3m3 3l3-3M4 20h16" />
                     </svg>
 
                     Relatório Mensal
@@ -28,8 +28,10 @@
 
                     <!-- Container do gráfico -->
                     <div class="flex justify-center">
-                        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-                            <canvas id="serviceChart"></canvas>
+                        <div class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
+                            <div class="relative h-96">
+                                <canvas id="serviceChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +67,9 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom' },
+                    legend: {
+                        position: 'bottom'
+                    },
                     title: {
                         display: true,
                         text: 'Distribuição de Serviços por Tipo'
