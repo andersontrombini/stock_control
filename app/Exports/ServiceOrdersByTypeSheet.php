@@ -6,8 +6,20 @@ use App\Models\ServiceOrder;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class ServiceOrdersByTypeSheet implements FromCollection, WithHeadings, WithTitle
+class ServiceOrdersByTypeSheet implements
+    FromCollection,
+    WithHeadings,
+    WithTitle,
+    WithStyles,
+    WithColumnFormatting,
+    ShouldAutoSize
 {
     private string $type;
 
@@ -16,14 +28,27 @@ class ServiceOrdersByTypeSheet implements FromCollection, WithHeadings, WithTitl
         $this->type = $type;
     }
 
+    /**
+     * 📊 Dados da planilha
+     */
     public function collection()
     {
         return ServiceOrder::where('type', $this->type)
-            ->select('client_name', 'client_address', 'client_plan', 'updated_at')
             ->orderBy('updated_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function ($order) {
+                return [
+                    $order->client_name,
+                    $order->client_address,
+                    $order->client_plan,
+                    Date::dateTimeToExcel($order->updated_at), // ✅ data real do Excel
+                ];
+            });
     }
 
+    /**
+     * 🧾 Cabeçalho
+     */
     public function headings(): array
     {
         return [
@@ -34,8 +59,41 @@ class ServiceOrdersByTypeSheet implements FromCollection, WithHeadings, WithTitl
         ];
     }
 
+    /**
+     * 🎨 Estilo do cabeçalho
+     */
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => [ // linha do cabeçalho
+                'font' => [
+                    'bold' => true,
+                ],
+                'fill' => [
+                    'fillType' => Fill::FILL_SOLID,
+                    'startColor' => [
+                        'argb' => 'DCE6F1', // azul claro
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * 📅 Formatação das colunas
+     */
+    public function columnFormats(): array
+    {
+        return [
+            'D' => 'dd/mm/yyyy hh:mm', // padrão brasileiro
+        ];
+    }
+
+    /**
+     * 🗂️ Nome da aba (usando helper)
+     */
     public function title(): string
     {
-        return ucfirst($this->type);
+        return service_type_label($this->type);
     }
 }

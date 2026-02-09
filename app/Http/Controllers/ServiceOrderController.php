@@ -7,6 +7,7 @@ use App\Models\Technical;
 use Illuminate\Http\Request;
 use App\Exports\ServiceOrdersExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class ServiceOrderController extends Controller
 {
@@ -92,9 +93,11 @@ class ServiceOrderController extends Controller
 
     public function export()
     {
+        $mesAno = Carbon::now()->format('m-Y');
+
         return Excel::download(
             new ServiceOrdersExport,
-            'ordens_de_servico.xlsx'
+            "ordens_de_servico_{$mesAno}.xlsx"
         );
     }
 }
