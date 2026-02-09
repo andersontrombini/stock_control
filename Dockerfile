@@ -5,14 +5,9 @@ FROM node:18-alpine AS frontend
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+COPY . .
+
 RUN npm install
-
-COPY resources ./resources
-COPY vite.config.js ./
-COPY tailwind.config.js* ./
-COPY postcss.config.js* ./
-
 RUN npm run build
 
 
@@ -39,7 +34,7 @@ WORKDIR /var/www
 
 COPY . .
 
-# Copiar assets compilados
+# 👉 copiar SOMENTE o build gerado pelo Vite
 COPY --from=frontend /app/public/build public/build
 
 RUN composer install --no-dev --optimize-autoloader
