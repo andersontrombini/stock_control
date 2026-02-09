@@ -35,7 +35,7 @@ WORKDIR /var/www
 COPY . .
 
 # 👉 copiar SOMENTE o build gerado pelo Vite
-COPY --from=frontend /app/public/build public/build
+COPY --from=frontend /app/public/build ./public/build
 
 RUN composer install --no-dev --optimize-autoloader
 
