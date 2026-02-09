@@ -1,6 +1,25 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <!-- Ações do topo -->
+            <div class="flex justify-end mb-4">
+                <a href="{{ route('service_orders.export') }}"
+                   class="inline-flex items-center px-4 py-2 
+                          bg-green-600 hover:bg-green-700 
+                          text-white font-semibold rounded-lg 
+                          shadow-md transition">
+
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 16v-8m0 8l-3-3m3 3l3-3M4 20h16" />
+                    </svg>
+
+                    Exportar Excel
+                </a>
+            </div>
+
+            <!-- Card -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="text-2xl font-bold mb-6">
@@ -15,9 +34,12 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="text-end font-semibold mt-4 mr-8">
-            Total: {{ array_sum($servicesByType) }}
+
+            <!-- Total -->
+            <div class="text-right font-semibold mt-4">
+                Total: {{ array_sum($servicesByType) }}
+            </div>
+
         </div>
     </div>
 
@@ -41,7 +63,7 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Permite ajustar o tamanho via CSS
+                maintainAspectRatio: false,
                 plugins: {
                     legend: { position: 'bottom' },
                     title: {

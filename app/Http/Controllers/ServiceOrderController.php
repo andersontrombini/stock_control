@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ServiceOrder;
 use App\Models\Technical;
 use Illuminate\Http\Request;
+use App\Exports\ServiceOrdersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ServiceOrderController extends Controller
 {
@@ -75,5 +77,24 @@ class ServiceOrderController extends Controller
         $serviceOrder->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function equipments(ServiceOrder $serviceOrder)
+    {
+        // ajuste o relacionamento conforme seu model
+        $equipments = $serviceOrder->equipment;
+
+        return view('service_orders._partials.equipments', compact(
+            'serviceOrder',
+            'equipments'
+        ));
+    }
+
+    public function export()
+    {
+        return Excel::download(
+            new ServiceOrdersExport,
+            'ordens_de_servico.xlsx'
+        );
     }
 }

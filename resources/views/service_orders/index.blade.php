@@ -2,13 +2,14 @@
     <!-- Importação correta do CSS do DataTables Tailwind -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.tailwindcss.css">
 
-    <div x-data="{ open: false, content: '' }" class="py-12 relative">
+    <div x-data="{ open: false, content: '', title: '' }" class="py-12 relative">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Botão de Inserir Registro -->
             <div class="flex justify-end mb-6">
                 <x-primary-button type="button"
                     @click="
+                title='Novo Serviço';
             open = true;
             fetch('{{ route('service_orders.create') }}')
                 .then(res => res.text())
@@ -101,9 +102,36 @@
                                             </td>
                                             <td
                                                 class="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center gap-3">
+                                                @if ($serviceOrder->status === 'closed')
+                                                    <!-- Visualizar equipamentos -->
+                                                    <button
+                                                        @click="
+                title='Equipamentos utilizados';
+                open = true;
+                fetch('{{ route('service_orders.equipments', $serviceOrder->id) }}')
+                    .then(res => res.text())
+                    .then(html => content = html)
+            "
+                                                        title="Equipamentos utilizados"
+                                                        class="text-blue-500 hover:text-blue-700 
+                   dark:text-blue-400 dark:hover:text-blue-300 
+                   transition duration-150">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                            stroke-width="1.8">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5
+                       c4.478 0 8.268 2.943 9.542 7
+                       -1.274 4.057-5.064 7-9.542 7
+                       -4.477 0-8.268-2.943-9.542-7z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        </svg>
+                                                    </button>
+                                                @endif
                                                 <!-- Editar -->
                                                 <button
                                                     @click="
+            title='Editar Ordem de Serviço';
             open = true;
             fetch('{{ route('service_orders.edit', $serviceOrder->id) }}')
                 .then(res => res.text())
@@ -156,8 +184,8 @@
                 <div
                     class="flex justify-between items-center p-4 
                 border-b border-orange-200 dark:border-orange-700">
-                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                        Novo Serviço
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100" x-text="title">
+
                     </h2>
 
                     <button @click="open = false"

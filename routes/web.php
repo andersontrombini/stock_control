@@ -14,7 +14,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard',[DashBoardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashBoardController::class, 'index'])->name('dashboard');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -26,9 +26,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Service Orders
     Route::resource('service_orders', ServiceOrderController::class);
+    Route::get(
+        '/service-orders/{serviceOrder}/equipments',
+        [ServiceOrderController::class, 'equipments']
+    )->name('service_orders.equipments');
+    Route::get(
+        '/service-orders/export',
+        [ServiceOrderController::class, 'export']
+    )->name('service_orders.export');
 
     // Technical
     Route::resource('technicals', TechnicalController::class);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
