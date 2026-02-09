@@ -4,14 +4,18 @@ FROM php:8.2-fpm
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
     zip \
-    curl \
     default-mysql-client \
     && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl bcmath gd
+
+# 🔹 Instalar Node.js + npm (NodeSource)
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -23,7 +27,7 @@ COPY . .
 # PHP deps
 RUN composer install --no-dev --optimize-autoloader
 
-# FRONTEND (Vite)
+# Frontend (Vite)
 RUN npm install
 RUN npm run build
 
