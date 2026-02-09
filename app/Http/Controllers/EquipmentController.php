@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Equipment;
 use Illuminate\Http\Request;
+use App\Exports\EquipmentsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class EquipmentController extends Controller
 {
@@ -64,4 +67,14 @@ class EquipmentController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function export()
+{
+    $mesAno = Carbon::now()->format('m-Y');
+
+    return Excel::download(
+        new EquipmentsExport,
+        "estoque__{$mesAno}.xlsx"
+    );
+}
 }

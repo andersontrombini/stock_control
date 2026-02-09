@@ -22,7 +22,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Equipments
-    Route::resource('equipments', EquipmentController::class);
+    Route::resource('equipments', EquipmentController::class)->except(['show']);
+    Route::get('/equipments/export', [EquipmentController::class, 'export'])
+    ->name('equipments.export');
 
     // Service Orders
     Route::resource('service_orders', ServiceOrderController::class);
