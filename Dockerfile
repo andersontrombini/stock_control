@@ -20,9 +20,14 @@ WORKDIR /var/www
 
 COPY . .
 
+# PHP deps
 RUN composer install --no-dev --optimize-autoloader
 
+# FRONTEND (Vite)
+RUN npm install
+RUN npm run build
 
+# Permissões
 RUN chmod -R 777 storage bootstrap/cache
 
 EXPOSE 8080
