@@ -17,7 +17,7 @@ class TechnicalController extends Controller
         $technical = Technical::where('user_id', Auth::id())->firstOrFail();
 
         // Carrega as ordens de serviço vinculadas a este técnico
-        $serviceOrders = $technical->serviceOrders()->orderBy('created_at', 'desc')->get();
+        $serviceOrders = $technical->serviceOrders()->where('status', '!=', 'closed')->orderBy('created_at', 'desc')->get();
 
         return view('technicals.index', compact('serviceOrders'));
     }
