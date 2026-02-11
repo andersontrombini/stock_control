@@ -22,27 +22,27 @@ class EquipmentObserver
      */
     public function updated(Equipment $equipment): void
     {
-       Log::info('Observer de Equipamento chamado para: ' . $equipment->name);
+    //    Log::info('Observer de Equipamento chamado para: ' . $equipment->name);
 
-        if ($equipment->wasChanged('quantity')) {
+    //     if ($equipment->wasChanged('quantity')) {
 
-            // Busca todos os equipamentos com estoque baixo
-            $lowStockEquipments = Equipment::whereColumn('quantity', '<', 'low_stock_threshold')->get();
+    //         // Busca todos os equipamentos com estoque baixo
+    //         $lowStockEquipments = Equipment::whereColumn('quantity', '<', 'low_stock_threshold')->get();
 
-            if ($lowStockEquipments->isNotEmpty()) {
-                Log::info('Equipamentos com estoque baixo encontrados.', [
-                    'count' => $lowStockEquipments->count(),
-                ]);
+    //         if ($lowStockEquipments->isNotEmpty()) {
+    //             Log::info('Equipamentos com estoque baixo encontrados.', [
+    //                 'count' => $lowStockEquipments->count(),
+    //             ]);
 
-                //  $recipientEmail = ['ander23br03@gmail.com', 'daniel@aip.com.br', 'tania@aip.com.br'];
-                $recipientEmail = 'ander23br03@gmail.com';
+    //             //  $recipientEmail = ['ander23br03@gmail.com', 'daniel@aip.com.br', 'tania@aip.com.br'];
+    //             $recipientEmail = 'ander23br03@gmail.com';
 
-                // Envia um e-mail único com todos os equipamentos
-                Mail::to($recipientEmail)->send(new LowStockAlertMail($lowStockEquipments));
-            } else {
-                Log::info('Nenhum equipamento com estoque baixo encontrado.');
-            }
-        }
+    //             // Envia um e-mail único com todos os equipamentos
+    //             Mail::to($recipientEmail)->send(new LowStockAlertMail($lowStockEquipments));
+    //         } else {
+    //             Log::info('Nenhum equipamento com estoque baixo encontrado.');
+    //         }
+    //     }
     }
 
     /**

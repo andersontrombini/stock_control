@@ -11,9 +11,9 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 
-class LowStockAlertMail extends Mailable implements ShouldQueue
+class LowStockAlertMail extends Mailable 
 {
-    use Queueable, SerializesModels;
+    use  SerializesModels;
 
     /**
      * A instância do equipamento.
