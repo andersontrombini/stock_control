@@ -1,5 +1,5 @@
 <img 
-    src="{{ asset('img/aip_logo.png') }}" 
+    src="{{ asset('aip_logo.png') }}" 
     alt="Logo"
     {{ $attributes->merge(['class' => 'max-h-full w-auto']) }}
 >

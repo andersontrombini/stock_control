@@ -1,0 +1,16 @@
+{
+    "name": "Sistema de Controle de Estoque",
+    "short_name": "SCE",
+    "background_color": "#6777ef",
+    "display": "standalone",
+    "description": "Sistema de controle de estoque para a empresa AIP.",
+    "theme_color": "#6777ef",
+    "start_url": "/",
+    "icons": [
+        {
+            "src": "aip_logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
