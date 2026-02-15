@@ -11,7 +11,11 @@ class ServiceOrdersExport implements WithMultipleSheets
     {
         $sheets = [];
 
-        $types = ServiceOrder::select('type')->distinct()->pluck('type');
+        $types = ServiceOrder::whereMonth('updated_at', now()->month)
+            ->whereYear('updated_at', now()->year)
+            ->select('type')
+            ->distinct()
+            ->pluck('type');
 
         foreach ($types as $type) {
             $sheets[] = new ServiceOrdersByTypeSheet($type);

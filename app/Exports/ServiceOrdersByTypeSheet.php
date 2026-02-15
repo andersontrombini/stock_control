@@ -33,7 +33,11 @@ class ServiceOrdersByTypeSheet implements
      */
     public function collection()
     {
+        $startOfMonth = now()->startOfMonth();
+        $endOfMonth = now()->endOfMonth();
+
         return ServiceOrder::where('type', $this->type)
+            ->whereBetween('updated_at', [$startOfMonth, $endOfMonth])
             ->orderBy('updated_at', 'desc')
             ->get()
             ->map(function ($order) {
