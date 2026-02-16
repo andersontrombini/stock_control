@@ -32,8 +32,8 @@ class SendLowStockAlert extends Command
 
         $recipientEmail = [
             'ander23br03@gmail.com',
-            // 'daniel@aip.com.br',
-            // 'tania@aip.com.br',
+            'daniel@aip.com.br',
+            'tania@aip.com.br',
         ];
 
         Mail::to($recipientEmail)
