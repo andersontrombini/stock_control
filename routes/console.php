@@ -4,7 +4,7 @@ use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 
-Schedule::command('stock:check-low')->dailyAt('08:00');
+Schedule::command('stock:check-low')->dailyAt('09:00');
 
 Schedule::command('report:monthly-service-orders')->lastDayOfMonth('17:59');
 
