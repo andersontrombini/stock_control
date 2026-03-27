@@ -51,9 +51,12 @@ class TechnicalController extends Controller
             ]);
 
             // 2. Processa os materiais (se foram enviados)
-            if ($request->has('equipment_id')) {
+            if ($request->filled('equipment_id')) {
                 foreach ($request->equipment_id as $index => $equipmentId) {
-                    $qtyUsed = $request->quantity_used[$index];
+
+                    if (empty($equipmentId)) continue;
+
+                    $qtyUsed = $request->quantity_used[$index] ?? null;
 
                     if (!$qtyUsed) continue;
 
