@@ -16,7 +16,7 @@
                     <div class="grid grid-cols-1 gap-3">
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Item do Estoque</label>
-                            <select name="equipment_id[]" required class="w-full text-sm rounded-md border-gray-300 dark:bg-gray-800 dark:border-gray-600 shadow-sm focus:ring-indigo-500">
+                            <select name="equipment_id[]" class="w-full text-sm rounded-md border-gray-300 dark:bg-gray-800 dark:border-gray-600 shadow-sm focus:ring-indigo-500">
                                 <option value="">Selecione o material...</option>
                                 @foreach($equipments as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }} (Disponível: {{ $item->quantity }})</option>
@@ -25,7 +25,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Quantidade Utilizada</label>
-                            <input type="number" name="quantity_used[]" required min="1" class="w-full text-sm rounded-md border-gray-300 dark:bg-gray-800 dark:border-gray-600 shadow-sm focus:ring-indigo-500">
+                            <input type="number" name="quantity_used[]" min="1" class="w-full text-sm rounded-md border-gray-300 dark:bg-gray-800 dark:border-gray-600 shadow-sm focus:ring-indigo-500">
                         </div>
                     </div>
                     
