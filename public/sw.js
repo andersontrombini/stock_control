@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "offline-cache-v1";
+const CACHE_NAME = "offline-cache-v2";
 const OFFLINE_URL = '/offline.html';
 
 const filesToCache = [
@@ -16,21 +16,35 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("fetch", (event) => {
 
+    const url = new URL(event.request.url);
+
+    // 🚫 NÃO interceptar rotas do sistema (Laravel autenticado)
+    if (
+        url.pathname.startsWith('/technicals') ||
+        url.pathname.startsWith('/dashboard') ||
+        url.pathname.startsWith('/profile') ||
+        url.pathname.startsWith('/login') ||
+        url.pathname.startsWith('/logout')
+    ) {
+        return; // deixa o navegador tratar normal
+    }
+
+    // ✅ Para navegação (páginas)
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request)
-                .catch(() => {
-                    return caches.match(OFFLINE_URL);
-                })
+                .catch(() => caches.match(OFFLINE_URL))
         );
-    } else {
-        event.respondWith(
-            caches.match(event.request)
-                .then((response) => {
-                    return response || fetch(event.request);
-                })
-        );
+        return;
     }
+
+    // ✅ Para assets (css, js, imagens)
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                return response || fetch(event.request);
+            })
+    );
 });
 
 self.addEventListener('activate', (event) => {
